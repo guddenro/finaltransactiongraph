@@ -56,11 +56,11 @@ define(['knockout', 'ojs/ojbootstrap', 'ojs/ojvalidation-base', 'ojs/ojarraydata
         {
                     
           var presentTime = now.getHours();
-          //console.log("present hours is:"+presentTime);
+          console.log("present hours is:"+presentTime);
           var pastSixHourTime = now.getHours()-6;
-          //console.log("date of today is"+todayDate);
+          console.log("date of today is"+todayDate);
           for(var k = pastSixHourTime; k<=presentTime; k++){
-              //console.log("past hour data is:"+k);
+              console.log("past hour data is:"+k);
               //alert("i am k="+k);
               var date = new Date();
               date.setHours(k);
@@ -69,7 +69,7 @@ define(['knockout', 'ojs/ojbootstrap', 'ojs/ojvalidation-base', 'ojs/ojarraydata
               var yyyy = date.getFullYear();  
               var pastSixHourDate = yyyy+"-"+mm+"-"+dd;
               //console.log("past six hour data:"+pastSixHourDate);
-              if(k>=0)
+              //if(k>=0)
               mixedseries[i]["items"].push({x:date.getTime(),y:0});
           }
                    
