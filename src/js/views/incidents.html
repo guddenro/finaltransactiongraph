@@ -1,0 +1,20 @@
+<oj-chart id="lineChart" 
+                type="line" 
+                data="[[dataProvider]]" 
+                animation-on-display="auto"
+                animation-on-data-change="auto" 
+                orientation="[[orientationValue]]"
+                time-axis-type="[[timeAxisTypeValue]]"
+                style-defaults.line-type="[[lineTypeValue]]"
+                hover-behavior="dim"
+                legend.position="bottom"
+                style="max-width:500px;width:100%;height:350px;">
+              <template slot="itemTemplate" data-oj-as="item">
+                <oj-chart-item value="[[item.data.count]]" 
+                group-id="[[ [item.data.DateTime] ]]" 
+                series-id="[[item.data.serviceType]]" 
+               >
+                </oj-chart-item>
+              </template>
+            </oj-chart>
+
