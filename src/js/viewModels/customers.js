@@ -21,13 +21,7 @@ define(['knockout', 'ojs/ojbootstrap', 'ojs/ojvalidation-base', 'ojs/ojarraydata
        var i,j;
        //system date
        var now = new Date();
-       //setting data with utc data
-        var d = new Date(now.getTime()+now.getTimezoneOffset() * 60000);
-        var dd = String(d.getDate()).padStart(2, '0');
-        var mm = String(d.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = d.getFullYear();  
-        var todayDate = yyyy+"-"+mm+"-"+dd;
-       //alert(todayDate);
+       
        var mixedseries = [];
        var flag =0,flagOfSixHour =0;
        for(i = 0 ; i<data.length; i++)
@@ -36,20 +30,16 @@ define(['knockout', 'ojs/ojbootstrap', 'ojs/ojvalidation-base', 'ojs/ojarraydata
         mixedseries.push({name:data[i].serviceType,items:[]});
         for(j = data[i].transactions.length-1 ; j>=0 ; j--)
         {
-           //console.log("j value:"+j);
-           var time = data[i].transactions[j].transactionRequestDateTime;
-           var givenDate = time.split("T")[0];
-           var nowDate = new Date(data[i].transactions[j].transactionRequestDateTime);
-           var x1 = new Date(nowDate.getTime()+now.getTimezoneOffset() * 60000);
-           //console.log("date is"+givenDate);
-            if(givenDate == todayDate)
-            {
-              if((now.getHours()-6 )<x1.getHours())
+           
+            var jsonFileTime = new Date(data[i].transactions[j].transactionRequestDateTime);
+           var jsonUTCTime = jsonFileTime.getTime() + (jsonFileTime.getTimezoneOffset() * 60000);
+        
+              
+             if((now-(new Date(jsonUTCTime))<=21600000))  
               {
-                mixedseries[i]["items"].push({x:x1,y:data[i].transactions[j].count});
-                flagOfSixHour = 1;
-              }
-            }             
+                flagOfSixHour=1;
+                mixedseries[i]["items"].push({x:new Date(jsonUTCTime),y:data[i].transactions[j].count});
+              }            
         }
        
         if(flagOfSixHour == 0)
@@ -58,7 +48,7 @@ define(['knockout', 'ojs/ojbootstrap', 'ojs/ojvalidation-base', 'ojs/ojarraydata
           var presentTime = now.getHours();
           console.log("present hours is:"+presentTime);
           var pastSixHourTime = now.getHours()-6;
-          console.log("date of today is"+todayDate);
+         // console.log("date of today is"+todayDate);
           for(var k = pastSixHourTime; k<=presentTime; k++){
               console.log("past hour data is:"+k);
               //alert("i am k="+k);
